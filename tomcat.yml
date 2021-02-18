@@ -1,0 +1,23 @@
+---
+- 
+  become: true
+  hosts: webservers
+  tasks:
+    - 
+      get_url:
+        dest: /opt
+        mode: 493
+        url: "https://mirror.olnevhost.net/pub/apache/tomcat/tomcat-8/v8.5.63/bin/apache-tomcat-8.5.63.tar.gz"
+      name: "Download tomcat8"
+    - 
+      name: "unzip tomcat8 tar file"
+      unarchive:
+        src: /opt/apache-tomcat-8.5.63.tar.gz
+        dest: /opt
+        remote_src: yes
+    - 
+      name: "shutdown up tomcat8"
+      command: nohup /opt/apache-tomcat-8.5.63/bin/shutdown.sh
+    - 
+      name: "start up tomcat8"
+      command: nohup /opt/apache-tomcat-8.5.63/bin/startup.sh
